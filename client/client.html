@@ -7,6 +7,80 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
   <script type="text/babel">
 
+    // function to handle the hxr response
+
+      const handleResponse = (xhr) => {
+      //grab content-type header from response
+      // WILL TELL US WHAT SERVER ACTUALLY RESPONDS WITH
+    
+      const type = xhr.getResponseHeader('content-type');
+        //grab the content section
+      const content = document.querySelector("#content");
+
+      const h1 = document.createElement('h1');
+      const p = document.createElement('p');
+      const pages = document.querySelector("#page");
+      let requestedPageName = pages.options[pages.selectedIndex].title;
+
+    //JSON first
+      if(type === 'application/json') {
+        const obj = JSON.parse(xhr.response);
+        console.log(obj);
+
+        h1.textContent = requestedPageName;
+        p.textContent = `${obj.message}`;
+
+      } //XMl second cuz xml is kinda lammmmmeeeee
+      else if (type === 'text/xml') {
+          //parse the response text into a JSON obj
+        const message = xhr.responseXML.querySelector('message').textContent;
+        const id = xhr.responseXML.querySelector('id').textContent;
+
+        console.log(xhr.responseXML);
+
+        //add the xml fields to our html elements
+        h1.textContent = requestedPageName;
+        p.textContent = message;
+}
+
+    //append the h1 and p to the content.
+      content.appendChild(h1);
+      content.appendChild(p);
+    };
+
+    //function to send an xhr request
+    const sendAjax = (url, acceptedTypes) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+
+      xhr.setRequestHeader ("Accept", acceptedTypes);
+
+      xhr.onload = () => handleResponse(xhr);
+        
+     //actually send to serve -- carly dont forget this part or //nothing will work
+      xhr.send();
+    };
+
+    const init = () => {
+
+      const pages = document.querySelector("#page");
+      const types = document.querySelector("#type");
+      const send = document.querySelector("#send");
+
+     //functions to call sendAjax for us with the correct parameters
+      const sendRequest = () => {
+        let requestedPage = pages.options[pages.selectedIndex].value;
+        let acceptedTypes = types.options[types.selectedIndex].value;
+
+        sendAjax(requestedPage, acceptedTypes);
+      }
+
+     //attach the correct functions to the correct events
+      send.addEventListener('click', sendRequest);
+    };
+
+    window.onload = init;
+
   </script>
 </head>
 <body>

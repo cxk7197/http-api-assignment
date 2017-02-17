@@ -1,0 +1,26 @@
+{
+  "name": "http-api-430",
+  "version": "1.0.0",
+  "description": "utilizing http api in node",
+  "main": "/c/Users/Carly/Documents/590-Cody/http-api-assignment/src/server.js",
+  "scripts": {
+    "start": "node ./src/server.js",
+    "pretest": "eslint ./src --fix",
+    "test": "echo \"Tests complete\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cxk7197/http-api-assignment.git"
+  },
+  "author": "Carly Kraft",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/cxk7197/http-api-assignment/issues"
+  },
+  "homepage": "https://github.com/cxk7197/http-api-assignment#readme",
+  "devDependencies": {
+    "eslint": "^3.15.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0"
+  }
+}
